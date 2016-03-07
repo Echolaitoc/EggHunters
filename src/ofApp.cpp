@@ -8,11 +8,15 @@ void ofApp::setup(){
     
     boidColor.set(175, 203, 39);
     eggRadius = 100;
+    eggCoreRadius = 20;
     eggRadiusMargin = 250;
     circlingSpeed = 0.03;
     egg.ellipse(mousePosition, eggRadius, eggRadius);
     egg.setCircleResolution(40);
     egg.setColor(ofColor(255, 204, 0));
+    eggCore.ellipse(mousePosition, eggCoreRadius, eggCoreRadius);
+    eggCore.setCircleResolution(30);
+    eggCore.setColor(boidColor);
     followEgg = false;
     amount = 30;
 	for (int i = 0; i < amount; ++i) {
@@ -47,6 +51,8 @@ void ofApp::update(){
     if (followEgg) {
         egg.clear();
         egg.ellipse(mousePosition, eggRadius, eggRadius);
+        eggCore.clear();
+        eggCore.ellipse(mousePosition, eggCoreRadius, eggCoreRadius);
     }
 }
 
@@ -58,6 +64,7 @@ void ofApp::draw(){
 	}
     if (followEgg) {
         egg.draw();
+        eggCore.draw();
     }
 }
 

@@ -8,9 +8,11 @@ private:
 	vector<boid> boids;
     
     ofPath egg;
+    ofPath eggCore;
     ofColor boidColor;
     ofVec2f mousePosition;
     float eggRadius;
+    float eggCoreRadius;
     float eggRadiusMargin;
     float circlingSpeed;
     int amount;
