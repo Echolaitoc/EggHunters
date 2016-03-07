@@ -211,7 +211,7 @@ ofVec2f boid::separate() {
 			count++;
 		}
 	}
-    desiredSeperation = 150;
+    desiredSeperation = 170;
     if (followEgg) {
         auto eggVector = position - eggPosition;
         auto eggDistane = eggVector.length();
