@@ -6,6 +6,15 @@
 class ofApp : public ofBaseApp {
 private:
 	vector<boid> boids;
+    
+    ofPath egg;
+    ofColor boidColor;
+    ofVec2f mousePosition;
+    float eggRadius;
+    float eggRadiusMargin;
+    float circlingSpeed;
+    int amount;
+    bool followEgg;
 
 public:
 	void setup();

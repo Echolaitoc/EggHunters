@@ -3,9 +3,21 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(0);
-	for (int i = 0; i < 20; ++i) {
+    
+    mousePosition.set(ofGetWidth() / 2, ofGetHeight() / 2);
+    
+    boidColor.set(255, 255, 255);
+    eggRadius = 100;
+    eggRadiusMargin = 250;
+    circlingSpeed = 0.03;
+    egg.ellipse(mousePosition, eggRadius, eggRadius);
+    egg.setCircleResolution(30);
+    egg.setColor(ofColor(255, 175, 50));
+    followEgg = false;
+    amount = 30;
+	for (int i = 0; i < amount; ++i) {
 		auto position = ofPoint(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
-		this->boids.push_back(boid(ofColor(255), position, 10, 0.05, false));
+		this->boids.push_back(boid(ofColor(255), position, 10, 0.05, followEgg));
 	}
 
 	for (auto& boid : boids) {
@@ -20,16 +32,33 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	for (auto& boid : boids) {
-		boid.update();
-	}
+    for (int i = 0; i < boids.size(); ++i) {
+        boid& boid = boids.at(i);
+        if (followEgg) {
+            boid.setEggPosition(mousePosition);
+            int sign = i < amount / 2 ? 1 : -1;
+            ofVec2f boidPosition = ofVec2f(sin((ofGetFrameNum() * sign + i * 300) * circlingSpeed), cos((ofGetFrameNum() * sign + i * 300) * circlingSpeed));
+            boidPosition = mousePosition + boidPosition.getScaled(eggRadius + eggRadiusMargin + i * 20);
+            boid.seek(boidPosition);
+        }
+        boid.update();
+    }
+    
+    if (followEgg) {
+        egg.clear();
+        egg.ellipse(mousePosition, eggRadius, eggRadius);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+    ofSetColor(boidColor);
 	for (auto boid : boids) {
 		boid.draw();
 	}
+    if (followEgg) {
+        egg.draw();
+    }
 }
 
 //--------------------------------------------------------------
@@ -44,7 +73,7 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y){
-
+    mousePosition.set(x, y);
 }
 
 //--------------------------------------------------------------
@@ -54,7 +83,10 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    followEgg = !followEgg;
+    for (auto& boid : boids) {
+        boid.setFollowEgg(followEgg);
+    }
 }
 
 //--------------------------------------------------------------

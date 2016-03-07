@@ -12,16 +12,21 @@ public:
 
 	bool operator==(const boid& other);
 
+    ofVec2f getPosition();
 	void addOtherBoid(boid* otherBoid);
 	void update();
 	void draw();
+    void setGrouping(bool groupTogether);
+    void setFollowEgg(bool followEgg);
+    void setEggPosition(ofVec2f eggPosition);
+    void seek(ofVec2f target);
+    void seek(ofVec2f target, float eggRadius);
+    void arrive(ofVec2f target);
 
 private:
 	void calculateTail();
 	void createItems();
 	void flock();
-	void seek(ofVec2f target);
-	void arrive(ofVec2f target);
 	void borders();
 	ofVec2f steer(ofVec2f target, bool slowdown);
 	ofVec2f separate();
@@ -35,15 +40,17 @@ private:
 	ofPath tail;
 	ofPath shortTail;
 	ofColor color;
-	ofPoint acceleration;
-	ofPoint directionVector;
-	ofPoint position;
-	ofPoint lastLoc;
+	ofVec2f acceleration;
+	ofVec2f directionVector;
+	ofVec2f position;
+	ofVec2f lastLoc;
+    ofVec2f eggPosition;
 	float radius;
 	float maxSpeed;
 	float maxForce;
 	float amount;
 	float count;
 	bool groupTogether;
+    bool followEgg;
 };
 
