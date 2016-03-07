@@ -2,22 +2,22 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	ofBackground(0);
+	ofBackground(82, 37, 131);
     
     mousePosition.set(ofGetWidth() / 2, ofGetHeight() / 2);
     
-    boidColor.set(255, 255, 255);
+    boidColor.set(175, 203, 39);
     eggRadius = 100;
     eggRadiusMargin = 250;
     circlingSpeed = 0.03;
     egg.ellipse(mousePosition, eggRadius, eggRadius);
-    egg.setCircleResolution(30);
-    egg.setColor(ofColor(255, 175, 50));
+    egg.setCircleResolution(40);
+    egg.setColor(ofColor(255, 204, 0));
     followEgg = false;
     amount = 30;
 	for (int i = 0; i < amount; ++i) {
 		auto position = ofPoint(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()));
-		this->boids.push_back(boid(ofColor(255), position, 10, 0.05, followEgg));
+		this->boids.push_back(boid(boidColor, position, 10, 0.05, followEgg));
 	}
 
 	for (auto& boid : boids) {
@@ -38,7 +38,7 @@ void ofApp::update(){
             boid.setEggPosition(mousePosition);
             int sign = i < amount / 2 ? 1 : -1;
             ofVec2f boidPosition = ofVec2f(sin((ofGetFrameNum() * sign + i * 300) * circlingSpeed), cos((ofGetFrameNum() * sign + i * 300) * circlingSpeed));
-            boidPosition = mousePosition + boidPosition.getScaled(eggRadius + eggRadiusMargin + i * 20);
+            boidPosition = mousePosition + boidPosition.getScaled(eggRadius + eggRadiusMargin + i * 5 + (i / amount) * 20);
             boid.seek(boidPosition);
         }
         boid.update();
